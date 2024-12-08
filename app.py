@@ -84,7 +84,7 @@ with col3:
 
 # Se o usuário clicar em "Desempenho", mostramos um gráfico com as métricas de desempenho
 if show_performance:
-    fig, ax = plt.subplots(figsize=(5, 4))  # Reduzido para metade do tamanho anterior
+    fig, ax = plt.subplots(figsize=(5, 4))  # Tamanho do gráfico
     metricas = ['Acurácia', 'Sensibilidade', 'Especificidade', 'AUC']
     valores = [accuracy, sensitivity, specificity, auc]
 
@@ -92,15 +92,16 @@ if show_performance:
 
     for p in ax.patches:
         ax.annotate(f'{p.get_height()*100:.2f}%', (p.get_x() + p.get_width() / 2., p.get_height()),
-                    ha='center', va='center', fontsize=10, color='black',
-                    xytext=(0, 15), textcoords='offset points')
+                    ha='center', va='center', fontsize=8, color='black',  # Fonte menor
+                    xytext=(0, 10), textcoords='offset points')  # Ajuste de distância do texto
 
     ax.set_title('Desempenho do Modelo LR')  # Título do gráfico
     ax.set_ylim(0.9, 1.01)  # Limita os valores do gráfico de 90% a 100%
     ax.set_ylabel('Valor')  # Rótulo do eixo Y
 
     plt.tight_layout()  # Ajusta o layout do gráfico
-    st.pyplot(fig, use_container_width=False)  # Exibe o gráfico e não usa 100% da largura
+    st.pyplot(fig, use_container_width=False)  # Exibe o gráfico
+
 
 # Se o usuário clicar em "Matriz de Confusão", mostramos um gráfico com a matriz de confusão
 if show_cm:
