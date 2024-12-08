@@ -84,7 +84,7 @@ with col3:
 
 # Se o usuário clicar em "Desempenho", mostramos um gráfico com as métricas de desempenho
 if show_performance:
-    fig, ax = plt.subplots(figsize=(3, 2))  # Reduzido para metade do tamanho anterior
+    fig, ax = plt.subplots(figsize=(4, 2))  # Reduzido para metade do tamanho anterior
     metricas = ['Acurácia', 'Sensibilidade', 'Especificidade', 'AUC']
     valores = [accuracy, sensitivity, specificity, auc]
 
