@@ -96,7 +96,7 @@ if show_performance:
                     xytext=(0, 10), textcoords='offset points')  # Ajuste de distância do texto
 
     ax.set_title('Desempenho do Modelo LR')  # Título do gráfico
-    ax.set_ylim(0.9, 1.01)  # Limita os valores do gráfico de 90% a 100%
+    ax.set_ylim(0.94, 1.01)  # Limita os valores do gráfico de 90% a 100%
     ax.set_ylabel('Valor')  # Rótulo do eixo Y
 
     plt.tight_layout()  # Ajusta o layout do gráfico
