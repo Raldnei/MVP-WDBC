@@ -84,7 +84,7 @@ with col3:
 
 # Se o usuário clicar em "Desempenho", mostramos um gráfico com as métricas de desempenho
 if show_performance:
-    fig, ax = plt.subplots(figsize=(6, 4))  # Ajusta o tamanho do gráfico
+    fig, ax = plt.subplots(figsize=(3, 2))  # Reduzido para metade do tamanho anterior
     metricas = ['Acurácia', 'Sensibilidade', 'Especificidade', 'AUC']
     valores = [accuracy, sensitivity, specificity, auc]
 
@@ -92,7 +92,7 @@ if show_performance:
 
     for p in ax.patches:
         ax.annotate(f'{p.get_height()*100:.2f}%', (p.get_x() + p.get_width() / 2., p.get_height()),
-                    ha='center', va='center', fontsize=12, color='black',
+                    ha='center', va='center', fontsize=10, color='black',
                     xytext=(0, 15), textcoords='offset points')
 
     ax.set_title('Desempenho do Modelo LR')  # Título do gráfico
@@ -104,7 +104,7 @@ if show_performance:
 
 # Se o usuário clicar em "Matriz de Confusão", mostramos um gráfico com a matriz de confusão
 if show_cm:
-    fig_cm, ax_cm = plt.subplots(figsize=(6, 4))  # Ajusta o tamanho do gráfico
+    fig_cm, ax_cm = plt.subplots(figsize=(3, 2))  # Reduzido para metade do tamanho anterior
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Benigno', 'Maligno'], 
                 yticklabels=['Benigno', 'Maligno'], ax=ax_cm)  # Gráfico de calor
 
@@ -115,13 +115,13 @@ if show_cm:
 if show_bar:
     diagnosis_counts = df['Diagnosis'].value_counts()
 
-    fig_bar, ax_bar = plt.subplots(figsize=(6, 4))  # Ajusta o tamanho do gráfico
+    fig_bar, ax_bar = plt.subplots(figsize=(3, 2))  # Reduzido para metade do tamanho anterior
     bars = ax_bar.bar(diagnosis_counts.index, diagnosis_counts.values, color=['red', 'green'])
 
     for bar in bars:
         yval = bar.get_height()
         ax_bar.text(bar.get_x() + bar.get_width() / 2, yval + 2, 
-                    f'{yval}', ha='center', va='bottom', fontsize=12, color='black')
+                    f'{yval}', ha='center', va='bottom', fontsize=10, color='black')
 
     ax_bar.set_ylim(0, 400)  # Limita o eixo Y
     ax_bar.set_title('Distribuição de Diagnóstico (M - Maligno, B - Benigno)')  # Título
