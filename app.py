@@ -1,12 +1,11 @@
-# Importando as bibliotecas que vamos usar. Cada uma tem um trabalho diferente.
-import streamlit as st  # Streamlit ajuda a fazer o app que vamos ver na tela
-import pandas as pd  # Pandas é para mexer com os dados
-from sklearn.model_selection import train_test_split, GridSearchCV  # Para dividir os dados e testar diferentes opções
-from sklearn.linear_model import LogisticRegression  # Usamos a regressão logística para o modelo de previsão
-from sklearn.preprocessing import StandardScaler  # Isso ajuda a deixar os números mais organizados
-from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score, roc_curve  # Para ver como o modelo está indo
-import seaborn as sns  # Biblioteca para fazer gráficos bonitos
-import matplotlib.pyplot as plt  # Outra biblioteca de gráficos
+import streamlit as st
+import pandas as pd
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score, roc_curve
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Classificador de Câncer de Mama", page_icon="🧬", layout="wide")
 
@@ -85,7 +84,7 @@ with col3:
 
 # Se o usuário clicar em "Desempenho", mostramos um gráfico com as métricas de desempenho
 if show_performance:
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(6, 4))  # Ajusta o tamanho do gráfico
     metricas = ['Acurácia', 'Sensibilidade', 'Especificidade', 'AUC']
     valores = [accuracy, sensitivity, specificity, auc]
 
@@ -101,22 +100,22 @@ if show_performance:
     ax.set_ylabel('Valor')  # Rótulo do eixo Y
 
     plt.tight_layout()  # Ajusta o layout do gráfico
-    st.pyplot(fig)  # Exibe o gráfico
+    st.pyplot(fig, use_container_width=False)  # Exibe o gráfico e não usa 100% da largura
 
 # Se o usuário clicar em "Matriz de Confusão", mostramos um gráfico com a matriz de confusão
 if show_cm:
-    fig_cm, ax_cm = plt.subplots(figsize=(6, 4))
+    fig_cm, ax_cm = plt.subplots(figsize=(6, 4))  # Ajusta o tamanho do gráfico
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Benigno', 'Maligno'], 
                 yticklabels=['Benigno', 'Maligno'], ax=ax_cm)  # Gráfico de calor
 
     ax_cm.set_title('Matriz de Confusão')  # Título do gráfico
-    st.pyplot(fig_cm)  # Exibe o gráfico
+    st.pyplot(fig_cm, use_container_width=False)  # Exibe o gráfico
 
 # Se o usuário clicar em "Diagnóstico", mostramos a distribuição dos diagnósticos
 if show_bar:
     diagnosis_counts = df['Diagnosis'].value_counts()
 
-    fig_bar, ax_bar = plt.subplots(figsize=(6, 4))
+    fig_bar, ax_bar = plt.subplots(figsize=(6, 4))  # Ajusta o tamanho do gráfico
     bars = ax_bar.bar(diagnosis_counts.index, diagnosis_counts.values, color=['red', 'green'])
 
     for bar in bars:
@@ -128,7 +127,7 @@ if show_bar:
     ax_bar.set_title('Distribuição de Diagnóstico (M - Maligno, B - Benigno)')  # Título
     ax_bar.set_xlabel('Diagnóstico')  # Rótulo do eixo X
     ax_bar.set_ylabel('Frequência')  # Rótulo do eixo Y
-    st.pyplot(fig_bar)  # Exibe o gráfico
+    st.pyplot(fig_bar, use_container_width=False)  # Exibe o gráfico
 
 # Filtra os dados com base no diagnóstico escolhido pelo usuário
 diagnostic_filter = st.selectbox("Escolha o diagnóstico", ['Todos', 'Benigno', 'Maligno'])
