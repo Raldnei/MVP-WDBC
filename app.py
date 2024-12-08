@@ -85,7 +85,7 @@ with col3:
 
 # Se o usuário clicar em "Desempenho", mostramos um gráfico com as métricas de desempenho
 if show_performance:
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(6, 4))
     metricas = ['Acurácia', 'Sensibilidade', 'Especificidade', 'AUC']
     valores = [accuracy, sensitivity, specificity, auc]
 
@@ -105,7 +105,7 @@ if show_performance:
 
 # Se o usuário clicar em "Matriz de Confusão", mostramos um gráfico com a matriz de confusão
 if show_cm:
-    fig_cm, ax_cm = plt.subplots(figsize=(8, 6))
+    fig_cm, ax_cm = plt.subplots(figsize=(6, 4))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Benigno', 'Maligno'], 
                 yticklabels=['Benigno', 'Maligno'], ax=ax_cm)  # Gráfico de calor
 
