@@ -1,72 +1,23 @@
+# app.py
 import streamlit as st
 import pandas as pd
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score, roc_curve
 import seaborn as sns
 import matplotlib.pyplot as plt
+from modelo import carregar_modelo, calcular_metricas
 
 st.set_page_config(page_title="Classificador de Câncer de Mama", page_icon="🧬", layout="wide")
 
-# Função para carregar os dados e treinar o modelo
-def carregar_modelo():
-    df = pd.read_csv('wdbc.data', header=None)  # Carrega o arquivo de dados
-    df.columns = ['ID', 'Diagnosis',  # Dá nomes para as colunas
-                  'radius1', 'texture1', 'perimeter1', 'area1', 'smoothness1', 'compactness1', 'concavity1', 'concave_points1', 
-                  'symmetry1', 'fractal_dimension1', 'radius2', 'texture2', 'perimeter2', 'area2', 'smoothness2', 'compactness2', 
-                  'concavity2', 'concave_points2', 'symmetry2', 'fractal_dimension2', 'radius3', 'texture3', 'perimeter3', 
-                  'area3', 'smoothness3', 'compactness3', 'concavity3', 'concave_points3', 'symmetry3', 'fractal_dimension3']
-    
-    # Divide as colunas de dados em duas partes: as características (X) e o diagnóstico (y)
-    X = df.drop(columns=['ID', 'Diagnosis'])  # Aqui estão as características que vamos usar para prever
-    y = df['Diagnosis'].map({'M': 1, 'B': 0})  # Transformamos M (maligno) em 1 e B (benigno) em 0
-    
-    # Dividimos os dados em treino e teste (80% para treinar e 20% para testar)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    # Usamos um "scaler" para deixar os dados mais organizados
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)  # Organiza os dados de treino
-    X_test = scaler.transform(X_test)  # Organiza os dados de teste
+# Carrega o modelo e os dados
+model, scaler, X_test, y_test, df, X_train, y_train, train_indices, test_indices = carregar_modelo()
 
-    # Criamos o modelo que vai aprender com os dados
-    model = LogisticRegression(solver='liblinear')
-    
-    # Procuramos o melhor modelo, testando várias opções
-    param_grid = {
-        'C': [0.01, 0.1, 1, 10, 100],  # Testa diferentes valores de 'C'
-        'penalty': ['l1', 'l2'],  # Testa diferentes tipos de penalidade
-    }
-    grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=10, n_jobs=-1, verbose=2)
-    grid_search.fit(X_train, y_train)  # Treina o modelo com os dados de treino
-
-    best_model = grid_search.best_estimator_  # Pega o melhor modelo
-    return best_model, scaler, X_test, y_test, df  # Retorna o modelo, os dados de teste e o dataframe
-
-# Chamamos a função para carregar o modelo e os dados
-model, scaler, X_test, y_test, df = carregar_modelo()
+# Calcula as métricas
+accuracy, sensitivity, specificity, auc, cm = calcular_metricas(model, X_test, y_test)
 
 # Lista de características que o modelo vai usar para fazer as previsões
 features = ['radius1', 'texture1', 'perimeter1', 'area1', 'smoothness1', 'compactness1', 'concavity1', 'concave_points1', 
             'symmetry1', 'fractal_dimension1', 'radius2', 'texture2', 'perimeter2', 'area2', 'smoothness2', 'compactness2', 
             'concavity2', 'concave_points2', 'symmetry2', 'fractal_dimension2', 'radius3', 'texture3', 'perimeter3', 
             'area3', 'smoothness3', 'compactness3', 'concavity3', 'concave_points3', 'symmetry3', 'fractal_dimension3']
-
-# Aqui fazemos as previsões, calculamos a precisão e outras métricas importantes
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)  # Acurácia do modelo
-cm = confusion_matrix(y_test, y_pred)  # Matriz de confusão
-
-# Sensibilidade (como o modelo identifica tumores malignos)
-sensitivity = cm[1, 1] / (cm[1, 1] + cm[1, 0])
-
-# Especificidade (como o modelo identifica tumores benignos)
-specificity = cm[0, 0] / (cm[0, 0] + cm[0, 1])
-
-# Curva ROC e AUC
-fpr, tpr, thresholds = roc_curve(y_test, model.predict_proba(X_test)[:, 1])
-auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
 
 # Agora, começamos a parte da interface gráfica com o Streamlit
 st.title("Classificador de Câncer de Mama")  # Título do aplicativo
@@ -101,7 +52,6 @@ if show_performance:
 
     plt.tight_layout()  # Ajusta o layout do gráfico
     st.pyplot(fig, use_container_width=False)  # Exibe o gráfico
-
 
 # Se o usuário clicar em "Matriz de Confusão", mostramos um gráfico com a matriz de confusão
 if show_cm:
@@ -145,11 +95,15 @@ else:
 columns_to_show = st.multiselect("Escolha as colunas para exibir", options=df.columns.tolist(), default=['ID', 'Diagnosis'])
 columns_to_show = ['ID', 'Diagnosis'] + [col for col in columns_to_show if col not in ['ID', 'Diagnosis']]
 
-# Se o usuário quiser ver os dados, mostra as primeiras 15 linhas
+# Se o usuário clicar em "Buscar Dados do dataset", mostra apenas os dados do conjunto de testes
 show_data = st.button("Buscar Dados do dataset", use_container_width=True)
 
 if show_data:
-    st.write(filtered_df[columns_to_show].head(10))  # Mostra as 15 primeiras linhas
+    # Agora, para corrigir o erro, vamos mapear os índices de X_test de volta para o DataFrame original
+    test_data = df.iloc[test_indices]  # Filtra os dados para incluir apenas os do conjunto de testes
+    
+    # Exibe os dados de teste
+    st.write(test_data[columns_to_show].head(10))  # Mostra as 10 primeiras linhas dos dados de teste
 
 # Permite que o usuário insira uma ID para preencher automaticamente os dados
 id_selecionada = st.text_input("Digite a ID para preencher automaticamente os dados:")
