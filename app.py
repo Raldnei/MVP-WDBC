@@ -103,7 +103,7 @@ if show_data:
     test_data = df.iloc[test_indices]  # Filtra os dados para incluir apenas os do conjunto de testes
     
     # Exibe os dados de teste
-    st.write(test_data[columns_to_show].head(600))  # Mostra as 10 primeiras linhas dos dados de teste
+    st.write(test_data[columns_to_show].head(60))  # Mostra as 10 primeiras linhas dos dados de teste
 
 # Permite que o usuário insira uma ID para preencher automaticamente os dados
 id_selecionada = st.text_input("Digite a ID para preencher automaticamente os dados:")
