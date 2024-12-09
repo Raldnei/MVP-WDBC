@@ -80,30 +80,30 @@ if show_bar:
     ax_bar.set_ylabel('Frequência')  # Rótulo do eixo Y
     st.pyplot(fig_bar, use_container_width=False)  # Exibe o gráfico
 
-# Filtra os dados com base no diagnóstico escolhido pelo usuário
+# Seleção do diagnóstico
 diagnostic_filter = st.selectbox("Escolha o diagnóstico", ['Todos', 'Benigno', 'Maligno'])
 
-# Aplica o filtro nos dados
-if diagnostic_filter == 'Benigno':
-    filtered_df = df[df['Diagnosis'] == '0']
-elif diagnostic_filter == 'Maligno':
-    filtered_df = df[df['Diagnosis'] == '1']
-else:
-    filtered_df = df  # Se "Todos" for selecionado, não aplica filtro
-
-# Exibe os dados filtrados e selecionados
+# Seleção das colunas a serem exibidas
 columns_to_show = st.multiselect("Escolha as colunas para exibir", options=df.columns.tolist(), default=['ID', 'Diagnosis'])
 columns_to_show = ['ID', 'Diagnosis'] + [col for col in columns_to_show if col not in ['ID', 'Diagnosis']]
 
-# Se o usuário clicar em "Buscar Dados do dataset", mostra apenas os dados do conjunto de testes
+# Botão para buscar dados do dataset
 show_data = st.button("Buscar Dados do dataset", use_container_width=True)
 
 if show_data:
-    # Agora, para corrigir o erro, vamos mapear os índices de X_test de volta para o DataFrame original
+    # Filtra os dados para incluir apenas os do conjunto de testes
     test_data = df.iloc[test_indices]  # Filtra os dados para incluir apenas os do conjunto de testes
     
-    # Exibe os dados de teste
-    st.write(test_data[columns_to_show].head(10))  # Mostra as 10 primeiras linhas dos dados de teste
+    # Aplica o filtro nos dados de teste com base no diagnóstico escolhido
+    if diagnostic_filter == 'Benigno':
+        filtered_test_data = test_data[test_data['Diagnosis'] == 'B']
+    elif diagnostic_filter == 'Maligno':
+        filtered_test_data = test_data[test_data['Diagnosis'] == 'M']
+    else:
+        filtered_test_data = test_data  # Se "Todos" for selecionado, não aplica filtro
+
+    # Exibe os dados de teste filtrados
+    st.write(filtered_test_data[columns_to_show].head(10))  # Mostra as 10 primeiras linhas dos dados de teste
 
 # Permite que o usuário insira uma ID para preencher automaticamente os dados
 id_selecionada = st.text_input("Digite a ID para preencher automaticamente os dados:")
