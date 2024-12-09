@@ -85,9 +85,9 @@ diagnostic_filter = st.selectbox("Escolha o diagnóstico", ['Todos', 'Benigno', 
 
 # Aplica o filtro nos dados
 if diagnostic_filter == 'Benigno':
-    filtered_df = df[df['Diagnosis'] == 'B']
+    filtered_df = df[df['Diagnosis'] == '0']
 elif diagnostic_filter == 'Maligno':
-    filtered_df = df[df['Diagnosis'] == 'M']
+    filtered_df = df[df['Diagnosis'] == '1']
 else:
     filtered_df = df  # Se "Todos" for selecionado, não aplica filtro
 
