@@ -103,7 +103,7 @@ if show_data:
         filtered_test_data = test_data  # Se "Todos" for selecionado, não aplica filtro
 
     # Exibe os dados de teste filtrados
-    st.write(filtered_test_data[columns_to_show].head(10))  # Mostra as 10 primeiras linhas dos dados de teste
+    st.write(filtered_test_data[columns_to_show].head(999))  # Mostra as 999 primeiras linhas dos dados de teste
 
 # Permite que o usuário insira uma ID para preencher automaticamente os dados
 id_selecionada = st.text_input("Digite a ID para preencher automaticamente os dados:")
