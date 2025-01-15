@@ -83,11 +83,18 @@ Clique em "Prever" para obter o diagnóstico do tumor.
 Selecione um arquivo CSV com os dados dos tumores.
 O sistema processará o arquivo e exibirá o diagnóstico de cada tumor.
 
-# Autores e Orientadores
+
+## Autores e Orientadores
 
 **Autores**:
-- Raldnei Miguel – Desenvolvedor
-- Messias Accacy – Desenvolvedor
+
+| <img src="https://avatars.githubusercontent.com/Raldnei" width="50" height="50" style="border-radius: 50%;"> | [**Raldnei Miguel**](https://github.com/Raldnei)<br><small>Desenvolvedor</small> |
+|---------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| <img src="https://avatars.githubusercontent.com/Messias-Acacy" width="50" height="50" style="border-radius: 50%;"> | [**Messias Accacy**](https://github.com/Messias-Acacy)<br><small>Desenvolvedor</small> |
+
 
 **Orientador**:
-- Luciano Cabral – Orientador do projeto
+
+| <img src="https://media.licdn.com/dms/image/v2/C4D03AQFvGM-MhNmbLA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1516535088936?e=2147483647&v=beta&t=aeaVesMKGJCu5P5XFMYiEqsgNAK0jT7juJR2ESS9Png" width="50" height="50" style="border-radius: 50%;"> | [**Luciano Cabral**](https://br.linkedin.com/in/lucianocabral)<br><small>Orientador do projeto</small> |
+|---------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+
