@@ -31,7 +31,7 @@ Antes de rodar o projeto, garanta que as seguintes dependências estão instalad
 ```Python (recomendado versão 3.7 ou superior)
 pip Streamlit 
 ````
-#Instalação
+# Instalação
 1. Clonando o Repositório
 Clone este repositório para a sua máquina local:
 
